@@ -4,25 +4,32 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    
-    private Transform player;
-    public float speed = 2f;
+    [SerializeField] private float speed;
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("Player").transform;
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 delta = player.position - transform.position;
-        delta.Normalize();
-        float moveSpeed = speed * Time.deltaTime;
-        transform.position = transform.position + (delta * moveSpeed);
+        
 
+    }
+
+    //patrón de diseño, hay una clase que solo puede existir 1 en todo el proyecto, solo puede existir una copia de esa clase.
+    private void Move()
+    {
+        Vector3 direction = (Player.Instance.transform.position - transform.position).normalize;
+
+        rb.AddForce(direction * speed);
+    }
+
+    private void FixedUpdate()
+    {
+        Move();
     }
 }
 
-//https://subscription.packtpub.com/book/game-development/9781783553655/1/ch01lvl1sec13/creating-enemies
